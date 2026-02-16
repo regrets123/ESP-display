@@ -14,9 +14,16 @@ extern "C" void app_main(void)
     deck.Shuffle();
 
     printf("Shuffled deck:\n");
-    for (int i = 0; i < 29; i++) {
-        Customer::Data* ad = deck.Draw();
-        if (ad)
-            printf("%d: %s\n", i, ad->name.c_str());
+    for (int round = 0; round < 100; round++)
+    {
+        deck.Shuffle();
+        printf("--- Round %d ---\n", round);
+        Customer::Data *ad;
+        int i = 0;
+        while ((ad = deck.Draw()) != nullptr)
+        {
+            printf("%d: %s\n", i++, ad->name.c_str());
+        }
+        vTaskDelay(1);
     }
 }
