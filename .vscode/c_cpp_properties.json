@@ -2,11 +2,17 @@
     "configurations": [
         {
             "name": "ESP-IDF",
-            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
-            "compilerPath": "${userHome}/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20251107/xtensa-esp-elf/bin/xtensa-esp32-elf-g++.exe",
+            "compileCommands": [
+                "${workspaceFolder}/build/compile_commands.json"
+            ],
             "cStandard": "c17",
             "cppStandard": "gnu++23",
-            "intelliSenseMode": "gcc-x86"
+            "intelliSenseMode": "gcc-x86",
+            "includePath": [
+                "${default}",
+                "${workspaceFolder}/main/public"
+            ],
+            "compilerPath": "C:\\Espressif\\tools\\xtensa-esp-elf\\esp-14.2.0_20251107\\xtensa-esp-elf\\bin\\xtensa-esp32-elf-g++.exe"
         }
     ],
     "version": 4
