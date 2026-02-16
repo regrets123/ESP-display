@@ -15,6 +15,8 @@ private:
     std::vector<Customer::Data*> ads;
     std::array<int, Customer::customerCount> adPerCustomer;
     std::array<Customer::Data, Customer::customerCount>* customers;
+    int drawIndex = 0;
+    int carryOver = -1;
 };
 
 #endif //ESP_DISPLAY_DECK_H

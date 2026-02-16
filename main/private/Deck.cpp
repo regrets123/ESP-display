@@ -5,46 +5,59 @@ void Deck::Shuffle() {
     std::array<int, Customer::customerCount> remaining = adPerCustomer;
     int lastCustomer = -1;
     ads.clear();
+    drawIndex = 0;
+
+    // place the carried over customer first from previous shuffle
+    if (carryOver >= 0) {
+        ads.push_back(&(*customers)[carryOver]);
+        lastCustomer = carryOver;
+        carryOver = -1;
+    }
 
     int totalRemaining = 0;
     for (int i = 0; i < Customer::customerCount; i++)
         totalRemaining += remaining[i];
 
     while (totalRemaining > 0) {
-        // find the customer with the most remaining ads that isn't the last placed
-        int best = -1;
+        // sum remaining ads for valid candidates (not the same as last placed)
+        int validTotal = 0;
         for (int i = 0; i < Customer::customerCount; i++) {
-            if (remaining[i] > 0 && i != lastCustomer && (best == -1 || remaining[i] > remaining[best]))
-                best = i;
+            if (i != lastCustomer)
+                validTotal += remaining[i];
         }
-        // among candidates with equal count, pick randomly for variety
-        int tiedCount = 0;
-        for (int i = 0; i < Customer::customerCount; i++) {
-            if (remaining[i] == remaining[best] && i != lastCustomer)
-                tiedCount++;
+
+        // only the last customer has ads left, save for next shuffle
+        if (validTotal == 0) {
+            carryOver = lastCustomer;
+            break;
         }
-        int pick = esp_random() % tiedCount;
+
+        // weighted random pick among valid candidates
+        int pick = esp_random() % validTotal;
+        int chosen = -1;
         for (int i = 0; i < Customer::customerCount; i++) {
-            if (remaining[i] == remaining[best] && i != lastCustomer) {
-                if (pick == 0) { best = i; break; }
-                pick--;
+            if (i != lastCustomer) {
+                pick -= remaining[i];
+                if (pick < 0) { chosen = i; break; }
             }
         }
 
-        ads.push_back(&(*customers)[best]);
-        remaining[best]--;
+        ads.push_back(&(*customers)[chosen]);
+        remaining[chosen]--;
         totalRemaining--;
-        lastCustomer = best;
+        lastCustomer = chosen;
     }
 }
 
 Customer::Data * Deck::Draw() {
-    return  nullptr;
+    if (drawIndex >= ads.size())
+        return nullptr;
+    return ads[drawIndex++];
 }
 
 void Deck::CalcAds(std::array<Customer::Data, Customer::customerCount>* customers) {
     this->customers = customers;
     for(int i = 0; i < Customer::customerCount; i++) {
-        adPerCustomer[i] = customers[i].data()->price / costPerAds;
+        adPerCustomer[i] = (*customers)[i].price / costPerAds;
     }
 }

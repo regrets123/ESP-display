@@ -6,10 +6,17 @@
 
 extern "C" void app_main(void)
 {
-    printf("Hello from ESP32!\n");
+    Customer customer;
+    customer.InitCustomers();
 
-    while(true) {
-        printf("ESP32 is running...\n");
-        vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay 1 second
+    Deck deck;
+    deck.CalcAds(customer.GetCustomers());
+    deck.Shuffle();
+
+    printf("Shuffled deck:\n");
+    for (int i = 0; i < 29; i++) {
+        Customer::Data* ad = deck.Draw();
+        if (ad)
+            printf("%d: %s\n", i, ad->name.c_str());
     }
 }

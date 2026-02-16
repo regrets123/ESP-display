@@ -1,5 +1,9 @@
 #include "Customer.h"
 
+std::array<Customer::Data, Customer::customerCount>* Customer::GetCustomers() {
+    return &customers;
+}
+
 void Customer::InitCustomers() {
     customers[0] = {
         "Hederlige Harry",
