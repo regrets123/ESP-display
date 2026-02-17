@@ -2,15 +2,21 @@
 #define ESP_DISPLAY_DISPLAYFEEDER_H
 #include "Deck.h"
 #include <string>
+#include "StringModifier.h"
 
 class DisplayFeeder {
 public:
-    void Init(Deck* deck);
+    void Init(Deck* deck, StringModifier* mod);
     void ExtractAd();
-    std::string ShowAd(std::string adText, Customer::AdType type);
+    void ShowAd();
+    Customer::Data* GetCustomer() { return currentCustomer; }
+    Customer::Advertisement GetAd() { return currentAd; }
 
 private:
     Deck* deck;
+    StringModifier* stringFixer;
+    Customer::Data* currentCustomer;
+    Customer::Advertisement currentAd;
 };
 
 #endif

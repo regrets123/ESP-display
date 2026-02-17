@@ -17,6 +17,10 @@ public:
         std::string name;
         int price;
         std::vector<Advertisement> ads;
+        int lastAdIndex = 0;
+        void AdsShown() { 
+            lastAdIndex = (lastAdIndex + 1) % ads.size(); 
+        }
     };
     std::array<Data, customerCount>* GetCustomers();
     void InitCustomers();

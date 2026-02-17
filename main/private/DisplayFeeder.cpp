@@ -1,23 +1,23 @@
 #include "DisplayFeeder.h"
+#include "StringModifier.h"
 
-void DisplayFeeder::Init(Deck *deck)
+void DisplayFeeder::Init(Deck* deck, StringModifier* mod)
 {
     this->deck = deck;
+    this->stringFixer = mod;
+    assert(deck);
 }
 
 void DisplayFeeder::ExtractAd()
 {
     if (deck != nullptr) {
-        if(Customer::Data* data = deck->Draw()){
-            // Example of displaying customer data
-            // In a real application, this would be replaced with actual display logic
-            // For example, sending data to an LCD or other display device
-        }
+        currentCustomer = deck->Draw();
+        currentAd = currentCustomer->ads[currentCustomer->lastAdIndex];
+        currentCustomer->AdsShown();
     }
 }
 
-std::string DisplayFeeder::ShowAd(std::string adText, Customer::AdType type)
+void DisplayFeeder::ShowAd()
 {
-    
-    return std::string();
+    //based on StringModifier translating special characters and currentAds and Current customer we construct the string here and send it to the display.
 }

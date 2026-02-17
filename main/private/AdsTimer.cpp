@@ -1,15 +1,22 @@
 #include "AdsTimer.h"
 #include "esp_timer.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include <Customer.h>
 
-void AdsTimer::Init()
+void AdsTimer::Init(DisplayFeeder* feederPtr)
 {
-    start = esp_timer_get_time();
+    assert(feederPtr);
+    feeder = feederPtr;
 }
 
 void AdsTimer::Tick()
-{
-        while (esp_timer_get_time() - start < 20000000LL) {
-            current.update(); // scroll, animate, whatever the effect is
-            vTaskDelay(pdMS_TO_TICKS(16));
+{       int64_t start_time = esp_timer_get_time();
+        feeder->ExtractAd();
+        if (esp_timer_get_time() - start_time >= 20000000LL) {
+            start_time = esp_timer_get_time(); 
+            feeder->ExtractAd();
         }
+        feeder->ShowAd();
+        vTaskDelay(pdMS_TO_TICKS(16));
 }
