@@ -1,20 +1,14 @@
-#ifndef ESP_INLAMNING_DISPLAY_CUSTOMER_H
-#define ESP_INLAMNING_DISPLAY_CUSTOMER_H
+#ifndef ESP_DISPLAY_CUSTOMER_H
+#define ESP_DISPLAY_CUSTOMER_H
 #include <array>
 #include <string>
 #include <vector>
-
-/* En kund som betalat 10000
-kr få ungefär dubbelt så många visningar som en som betalar 5000 kr etc.
-Varje visning räcker 20 sekunder. Sen slumpas nästa fram - viktigt: ALDRIG
-SAMMA KUND TVÅ GÅNGER PÅ RAKEN*/
-
-
 
 class Customer {
 public:
     static constexpr int customerCount = 5;
     enum AdType {none, scroll, blink, plainText, maxNum};
+
     struct Advertisement {
         std::string text;
         AdType adType;
@@ -31,5 +25,4 @@ private:
 
 };
 
-
-#endif //ESP_INLAMNING_DISPLAY_CUSTOMER_H
+#endif //ESP_DISPLAY_CUSTOMER_H
