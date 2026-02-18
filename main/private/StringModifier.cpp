@@ -1,11 +1,9 @@
 #include "StringModifier.h"
 
-void StringModifier::Init()
-{
-    
+void StringModifier::Init() {
+
 }
 
-std::string StringModifier::ToDisplay(std::string toModify)
-{
+std::string StringModifier::ToDisplay(std::string toModify) {
     return std::string();
 }
