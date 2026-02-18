@@ -1,4 +1,5 @@
 #include "Deck.h"
+
 #include "esp_random.h"
 
 void Deck::Shuffle() {
@@ -38,10 +39,12 @@ void Deck::Shuffle() {
         for (int i = 0; i < Customer::customerCount; i++) {
             if (i != lastCustomer) {
                 pick -= remaining[i];
-                if (pick < 0) { chosen = i; break; }
+                if (pick < 0) {
+                    chosen = i;
+                    break;
+                }
             }
         }
-
         ads.push_back(&(*customers)[chosen]);
         remaining[chosen]--;
         totalRemaining--;
@@ -49,7 +52,7 @@ void Deck::Shuffle() {
     }
 }
 
-Customer::Data * Deck::Draw() {
+Customer::Data* Deck::Draw() {
     if (drawIndex >= ads.size())
         return nullptr;
     return ads[drawIndex++];
@@ -57,7 +60,7 @@ Customer::Data * Deck::Draw() {
 
 void Deck::CalcAds(std::array<Customer::Data, Customer::customerCount>* customers) {
     this->customers = customers;
-    for(int i = 0; i < Customer::customerCount; i++) {
+    for (int i = 0; i < Customer::customerCount; i++) {
         adPerCustomer[i] = (*customers)[i].price / costPerAds;
     }
 }

@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 
 #include "AdsTimer.h"
@@ -10,9 +11,12 @@ extern "C" void app_main(void) {
     Customer customer;
     customer.InitCustomers();
     Deck deck;
-    DisplayFeeder* feeder = new DisplayFeeder();
+    StringModifier sMod;
+    DisplayFeeder feeder;
     AdsTimer timer;
-    timer.Init(feeder);
+    feeder.Init(&deck, &sMod, &timer, &customer);
+    timer.Init(&feeder);
+
     deck.CalcAds(customer.GetCustomers());
     deck.Shuffle();
     printf("Shuffled deck:\n");

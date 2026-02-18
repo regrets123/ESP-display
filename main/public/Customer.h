@@ -5,9 +5,13 @@
 #include <vector>
 
 class Customer {
-public:
+   public:
     static constexpr int customerCount = 5;
-    enum AdType {none, scroll, blink, plainText, maxNum};
+    enum AdType { none,
+                  scroll,
+                  blink,
+                  plainText,
+                  maxNum };
 
     struct Advertisement {
         std::string text;
@@ -18,15 +22,16 @@ public:
         int price;
         std::vector<Advertisement> ads;
         int lastAdIndex = 0;
-        void AdsShown() { 
-            lastAdIndex = (lastAdIndex + 1) % ads.size(); 
+        void AdsShown() {
+            lastAdIndex = (lastAdIndex + 1) % ads.size();
         }
     };
     std::array<Data, customerCount>* GetCustomers();
     void InitCustomers();
-private:
-    std::array<Data, customerCount> customers{};
+    Data* GetEdgeCaseCustomer() { return &customers[2]; }
 
+   private:
+    std::array<Data, customerCount> customers{};
 };
 
-#endif //ESP_DISPLAY_CUSTOMER_H
+#endif  // ESP_DISPLAY_CUSTOMER_H

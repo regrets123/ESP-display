@@ -1,20 +1,37 @@
 #include "DisplayFeeder.h"
+
+#include "AdsTimer.h"
 #include "StringModifier.h"
 
-void DisplayFeeder::Init(Deck* deck, StringModifier* mod) {
+void DisplayFeeder::Init(Deck* deck, StringModifier* mod, AdsTimer* timer, Customer* cust) {
     this->deck = deck;
     this->stringFixer = mod;
-    assert(deck);
+    this->timer = timer;
+    this->customer = cust;
+    assert(this->deck);
+    assert(this->stringFixer);
+    assert(this->timer);
+    assert(this->customer);
 }
 
 void DisplayFeeder::FetchNextAd() {
-    if (deck != nullptr) {
+    if (deck) {
         currentCustomer = deck->Draw();
-        currentAd = currentCustomer->ads[currentCustomer->lastAdIndex];
+        currentAd = SelectAd();
         currentCustomer->AdsShown();
     }
 }
 
 void DisplayFeeder::ShowAd() {
-    //based on StringModifier translating special characters and currentAds and Current customer we construct the string here and send it to the display.
+    std::string fixed = stringFixer->ToDisplay(currentAd.text);
+}
+
+Customer::Advertisement DisplayFeeder::SelectAd() {
+    int indexToUse = -1;
+    if (currentCustomer && currentCustomer == (customer->GetEdgeCaseCustomer())) {
+        indexToUse = timer->IsEvenMinute();
+    } else {
+        indexToUse = currentCustomer->lastAdIndex;
+    }
+    return currentCustomer->ads[indexToUse];
 }
