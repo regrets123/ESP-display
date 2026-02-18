@@ -2,12 +2,10 @@
     "configurations": [
         {
             "name": "ESP-IDF",
-            "compileCommands": [
-                "${workspaceFolder}/build/compile_commands.json"
-            ],
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
             "cStandard": "c17",
             "cppStandard": "gnu++23",
-            "intelliSenseMode": "gcc-x86",
+            "intelliSenseMode": "gcc-arm",
             "includePath": [
                 "${default}",
                 "${workspaceFolder}/main/public"

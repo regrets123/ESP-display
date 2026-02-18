@@ -1,8 +1,10 @@
 #include "AdsTimer.h"
+
+#include <Customer.h>
+
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include <Customer.h>
 
 void AdsTimer::Init(DisplayFeeder* feederPtr) {
     assert(feederPtr);
