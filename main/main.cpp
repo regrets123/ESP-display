@@ -6,8 +6,10 @@
 #include "Deck.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include <i2cdev.h>
 
 extern "C" void app_main(void) {
+    ESP_ERROR_CHECK(i2cdev_init());
     Customer customer;
     customer.InitCustomers();
     Deck deck;

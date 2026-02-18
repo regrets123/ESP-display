@@ -2,7 +2,7 @@
 #define ESP_DISPLAY_ADS_TIMER_H
 #include <cstdint>
 
-#include "DisplayFeeder.h"
+class DisplayFeeder;
 
 class AdsTimer {
    public:
