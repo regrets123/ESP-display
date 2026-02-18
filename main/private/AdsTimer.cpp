@@ -1,8 +1,8 @@
 #include "AdsTimer.h"
-#include "DisplayFeeder.h"
 
 #include <Customer.h>
 
+#include "DisplayFeeder.h"
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -13,7 +13,7 @@ void AdsTimer::Init(DisplayFeeder* feederPtr) {
 }
 
 void AdsTimer::Tick() {
-    int64_t start = esp_timer_get_time();
+    start = esp_timer_get_time();
     feeder->FetchNextAd();
     while (true) {
         if (esp_timer_get_time() - start >= 20000000LL) {

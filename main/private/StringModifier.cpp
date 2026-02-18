@@ -5,5 +5,5 @@ void StringModifier::Init() {
 }
 
 std::string StringModifier::ToDisplay(std::string toModify) {
-    return std::string();
+    return toModify;
 }
