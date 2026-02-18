@@ -7,7 +7,7 @@
 class DisplayFeeder {
 public:
     void Init(Deck* deck, StringModifier* mod);
-    void ExtractAd();
+    void FetchNextAd();
     void ShowAd();
     Customer::Data* GetCustomer() { return currentCustomer; }
     Customer::Advertisement GetAd() { return currentAd; }

@@ -12,10 +12,10 @@ void AdsTimer::Init(DisplayFeeder* feederPtr)
 
 void AdsTimer::Tick()
 {       int64_t start_time = esp_timer_get_time();
-        feeder->ExtractAd();
+        feeder->FetchNextAd();
         if (esp_timer_get_time() - start_time >= 20000000LL) {
             start_time = esp_timer_get_time(); 
-            feeder->ExtractAd();
+            feeder->FetchNextAd();
         }
         feeder->ShowAd();
         vTaskDelay(pdMS_TO_TICKS(16));

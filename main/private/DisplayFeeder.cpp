@@ -8,7 +8,7 @@ void DisplayFeeder::Init(Deck* deck, StringModifier* mod)
     assert(deck);
 }
 
-void DisplayFeeder::ExtractAd()
+void DisplayFeeder::FetchNextAd()
 {
     if (deck != nullptr) {
         currentCustomer = deck->Draw();
