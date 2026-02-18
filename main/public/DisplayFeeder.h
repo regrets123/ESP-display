@@ -2,6 +2,7 @@
 #define ESP_DISPLAY_DISPLAYFEEDER_H
 #include <string>
 
+#include "AdsTimer.h"
 #include "Deck.h"
 #include "StringModifier.h"
 
