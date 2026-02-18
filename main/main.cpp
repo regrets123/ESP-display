@@ -1,12 +1,13 @@
-
+#include <i2cdev.h>
 #include <stdio.h>
 
 #include "AdsTimer.h"
 #include "Customer.h"
 #include "Deck.h"
+#include "DisplayFeeder.h"
+#include "StringModifier.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include <i2cdev.h>
 
 extern "C" void app_main(void) {
     ESP_ERROR_CHECK(i2cdev_init());
