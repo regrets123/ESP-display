@@ -45,8 +45,6 @@ std::string StringModifier::ParseSwedish(std::string text) {
 
 std::array<std::string, 2> StringModifier::ToDisplay(std::string toModify) {
     std::string parsed = ParseSwedish(toModify);
-    if (parsed.length() <= 16) {
-        return {toModify, ""};
-    }
-    return {parsed.substr(0, 16), parsed.substr(16)};
+    parsed.resize(32, ' ');  // pad to two full rows so stale LCD chars are overwritten
+    return {parsed.substr(0, 16), parsed.substr(16, 16)};
 }

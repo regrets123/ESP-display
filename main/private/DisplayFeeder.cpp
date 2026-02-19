@@ -42,14 +42,14 @@ void DisplayFeeder::Init(Deck* deck, StringModifier* mod, AdsTimer* timer, Custo
     ESP_ERROR_CHECK(hd44780_init(&lcd));
 
     static const uint8_t a_ring[8] = {
-        0b00100,  // .O.
-        0b01010,  // O.O
-        0b00100,  // .O.
-        0b01110,  // OOO
-        0b00001,  // ...O
-        0b01111,  // OOOO
-        0b10001,  // O..O
-        0b01111,  // OOOO
+        0b00100,  // ..O..  circle
+        0b00000,  //        gap
+        0b01110,  // .OOO.  top of 'a'
+        0b00001,  // ....O  right
+        0b01111,  // .OOOO  middle
+        0b10001,  // O...O  body
+        0b01111,  // .OOOO  bottom
+        0b00000,  //        empty (matching other chars)
     };
     ESP_ERROR_CHECK(hd44780_upload_character(&lcd, StringModifier::CGRAM_SLOT_A_RING, a_ring));
 
