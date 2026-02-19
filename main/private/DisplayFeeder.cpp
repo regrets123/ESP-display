@@ -40,6 +40,19 @@ void DisplayFeeder::Init(Deck* deck, StringModifier* mod, AdsTimer* timer, Custo
     ESP_ERROR_CHECK(pcf8574_init_desc(&s_pcf8574, LCD_I2C_ADDR, I2C_NUM_0,
                                       (gpio_num_t)SDA, (gpio_num_t)SCL));
     ESP_ERROR_CHECK(hd44780_init(&lcd));
+
+    static const uint8_t a_ring[8] = {
+        0b00100,  // .O.
+        0b01010,  // O.O
+        0b00100,  // .O.
+        0b01110,  // OOO
+        0b00001,  // ...O
+        0b01111,  // OOOO
+        0b10001,  // O..O
+        0b01111,  // OOOO
+    };
+    ESP_ERROR_CHECK(hd44780_upload_character(&lcd, StringModifier::CGRAM_SLOT_A_RING, a_ring));
+
     ESP_ERROR_CHECK(hd44780_switch_backlight(&lcd, true));
 }
 

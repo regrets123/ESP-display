@@ -1,4 +1,5 @@
 #include "StringModifier.h"
+#include <cstdint>
 
 void StringModifier::Init() {
 }
@@ -11,29 +12,29 @@ std::string StringModifier::ParseSwedish(std::string text) {
         if ((unsigned char)text[i] == 0xC3 && i + 1 < text.size()) {
             switch ((unsigned char)text[i + 1]) {
                 case 0xA5:
-                    result += (char)0xE5;
+                    result += (char)CGRAM_SLOT_A_RING;
                     i++;
-                    continue;  // å
+                    continue;  // å (custom CGRAM)
                 case 0xA4:
-                    result += (char)0xE4;
+                    result += (char)0xE1;
                     i++;
                     continue;  // ä
                 case 0xB6:
-                    result += (char)0xF6;
+                    result += (char)0xEF;
                     i++;
                     continue;  // ö
                 case 0x85:
-                    result += (char)0xC5;
+                    result += (char)CGRAM_SLOT_A_RING;
                     i++;
-                    continue;  // Å
+                    continue;  // Å (use å glyph)
                 case 0x84:
-                    result += (char)0xC4;
+                    result += (char)0xE1;
                     i++;
-                    continue;  // Ä
+                    continue;  // Ä (use ä glyph)
                 case 0x96:
-                    result += (char)0xD6;
+                    result += (char)0xEF;
                     i++;
-                    continue;  // Ö
+                    continue;  // Ö (use ö glyph)
             }
         }
         result += text[i];
