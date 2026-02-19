@@ -28,5 +28,11 @@ void AdsTimer::Tick() {
 
 int AdsTimer::IsEvenMinute() {  // 0 means even.
     int64_t elapsed = esp_timer_get_time() - start;
-    return (elapsed / 60000000LL) % 2 == 0;
+    int isEven = (elapsed / 60000000LL) % 2 == 0;
+    if (isEven == 0) {
+        printf("IsEven");
+    } else {
+        printf("IsUneven");
+    }
+    return isEven;
 }
