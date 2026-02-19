@@ -97,6 +97,9 @@ void DisplayFeeder::ShowScroll() {
     if (frameCount % 10 == 0)
         scrollOffset++;
 
+    std::string name = currentCustomer->name;
+    name.resize(16, ' ');
+
     std::string parsed = stringFixer->ParseSwedish(currentAd.text);
     std::string paddedText = std::string(16, ' ') + parsed + std::string(16, ' ');
 
@@ -104,13 +107,11 @@ void DisplayFeeder::ShowScroll() {
     if (scrollOffset >= maxOffset)
         scrollOffset = 0;
 
-    std::string row0 = paddedText.substr(scrollOffset, 16);
-    std::string row1 = paddedText.substr(scrollOffset + 16, 16);
-    row0.resize(16, ' ');
+    std::string row1 = paddedText.substr(scrollOffset, 16);
     row1.resize(16, ' ');
 
     hd44780_gotoxy(&lcd, 0, 0);
-    hd44780_puts(&lcd, row0.c_str());
+    hd44780_puts(&lcd, name.c_str());
     hd44780_gotoxy(&lcd, 0, 1);
     hd44780_puts(&lcd, row1.c_str());
 }
