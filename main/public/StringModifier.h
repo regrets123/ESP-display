@@ -7,6 +7,7 @@ class StringModifier {
 public:
     void Init ();
     std::array<std::string, 2> ToDisplay(std::string toModify);
+    std::string ParseSwedish(std::string text);
     
 private:
 };
