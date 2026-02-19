@@ -3,9 +3,12 @@
 #include <Customer.h>
 
 #include "DisplayFeeder.h"
+#include "esp_log.h"
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+
+static const char* TAG = "AdsTimer";
 
 void AdsTimer::Init(DisplayFeeder* feederPtr) {
     assert(feederPtr);
@@ -13,7 +16,8 @@ void AdsTimer::Init(DisplayFeeder* feederPtr) {
 }
 
 void AdsTimer::Tick() {
-    start = esp_timer_get_time();
+    bootTime = esp_timer_get_time();
+    start = bootTime;
     feeder->FetchNextAd();
     while (true) {
         if (esp_timer_get_time() - start >= 20000000LL) {
@@ -26,13 +30,10 @@ void AdsTimer::Tick() {
     }
 }
 
-int AdsTimer::IsEvenMinute() {  // 0 means even.
-    int64_t elapsed = esp_timer_get_time() - start;
-    int isEven = (elapsed / 60000000LL) % 2 == 0;
-    if (isEven == 0) {
-        printf("IsEven");
-    } else {
-        printf("IsUneven");
-    }
+int AdsTimer::IsEvenMinute() {  // returns 0 on even minute (ads[0]), 1 on odd minute (ads[1])
+    int64_t elapsed = esp_timer_get_time() - bootTime;
+    int isEven = (elapsed / 60000000LL) % 2 != 0;
+    ESP_LOGI(TAG, "IsEvenMinute: elapsed=%" PRId64 "us, minute=%lld, isEven=%d",
+             elapsed, elapsed / 60000000LL, isEven);
     return isEven;
 }

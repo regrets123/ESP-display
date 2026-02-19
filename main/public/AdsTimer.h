@@ -13,6 +13,7 @@ class AdsTimer {
 
    private:
     int64_t start;
+    int64_t bootTime;
     DisplayFeeder* feeder;
 };
 
