@@ -61,15 +61,74 @@ void DisplayFeeder::FetchNextAd() {
         currentCustomer = deck->Draw();
         currentAd = SelectAd();
         currentCustomer->AdsShown();
+        frameCount = 0;
+        scrollOffset = 0;
+        hd44780_control(&lcd, true, false, false);  // ensure display is on for new ad
     }
 }
 
 void DisplayFeeder::ShowAd() {
+    frameCount++;
+    switch (currentAd.adType) {
+        case Customer::AdType::scroll: {
+            ShowScroll();
+            break;
+        }
+        case Customer::AdType::blink: {
+            ShowBlink();
+            break;
+        }
+        default: {
+            ShowPlain();
+            break;
+        }
+    }
+}
+
+void DisplayFeeder::ShowPlain() {
     auto fixed = stringFixer->ToDisplay(currentAd.text);
     hd44780_gotoxy(&lcd, 0, 0);
     hd44780_puts(&lcd, fixed[0].c_str());
     hd44780_gotoxy(&lcd, 0, 1);
     hd44780_puts(&lcd, fixed[1].c_str());
+}
+
+void DisplayFeeder::ShowScroll() {
+    if (frameCount % 10 == 0)
+        scrollOffset++;
+
+    std::string parsed = stringFixer->ParseSwedish(currentAd.text);
+    std::string paddedText = std::string(16, ' ') + parsed + std::string(16, ' ');
+
+    int maxOffset = (int)paddedText.size() - 16;
+    if (scrollOffset >= maxOffset)
+        scrollOffset = 0;
+
+    std::string row0 = paddedText.substr(scrollOffset, 16);
+    std::string row1 = paddedText.substr(scrollOffset + 16, 16);
+    row0.resize(16, ' ');
+    row1.resize(16, ' ');
+
+    hd44780_gotoxy(&lcd, 0, 0);
+    hd44780_puts(&lcd, row0.c_str());
+    hd44780_gotoxy(&lcd, 0, 1);
+    hd44780_puts(&lcd, row1.c_str());
+}
+
+void DisplayFeeder::ShowBlink() {
+    bool visible = (frameCount / 30) % 2 == 0;
+    if (visible) {
+        auto fixed = stringFixer->ToDisplay(currentAd.text);
+        hd44780_gotoxy(&lcd, 0, 0);
+        hd44780_puts(&lcd, fixed[0].c_str());
+        hd44780_gotoxy(&lcd, 0, 1);
+        hd44780_puts(&lcd, fixed[1].c_str());
+    } else {
+        hd44780_gotoxy(&lcd, 0, 0);
+        hd44780_puts(&lcd, "                ");
+        hd44780_gotoxy(&lcd, 0, 1);
+        hd44780_puts(&lcd, "                ");
+    }
 }
 
 Customer::Advertisement DisplayFeeder::SelectAd() {

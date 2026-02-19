@@ -25,6 +25,9 @@ class DisplayFeeder {
 
    private:
     Customer::Advertisement SelectAd();
+    void ShowPlain();
+    void ShowScroll();
+    void ShowBlink();
 
     AdsTimer* timer;
     Deck* deck;
@@ -33,6 +36,9 @@ class DisplayFeeder {
     Customer::Data* currentCustomer;
     Customer::Advertisement currentAd;
     int edgeCaseCustIndex = 2;  // since only this customer has special case for when to view what ads, this will be sufficient.
+
+    int frameCount = 0;
+    int scrollOffset = 0;
 
     hd44780_t lcd = {};
 };
