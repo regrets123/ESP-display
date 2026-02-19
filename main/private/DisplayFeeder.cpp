@@ -52,9 +52,11 @@ void DisplayFeeder::FetchNextAd() {
 }
 
 void DisplayFeeder::ShowAd() {
-    std::string fixed = stringFixer->ToDisplay(currentAd.text);
+    auto fixed = stringFixer->ToDisplay(currentAd.text);
     hd44780_gotoxy(&lcd, 0, 0);
-    hd44780_puts(&lcd, fixed.c_str());
+    hd44780_puts(&lcd, fixed[0].c_str());
+    hd44780_gotoxy(&lcd, 0, 1);
+    hd44780_puts(&lcd, fixed[1].c_str());
 }
 
 Customer::Advertisement DisplayFeeder::SelectAd() {

@@ -9,7 +9,7 @@
         "editor.defaultFormatter": "ms-vscode.cpptools"
     },
     "C_Cpp.clang_format_style": "file",
-    "idf.portWin": "COM3",
+    "idf.portWin": "COM5",
     "idf.openOcdConfigs": [
         "board/esp32-wrover-kit-3.3v.cfg"
     ],

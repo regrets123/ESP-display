@@ -1,11 +1,12 @@
 #include <string>
+#include <array>
 #ifndef ESP_DISPLAY_STRINGMODIFIER_H
 #define ESP_DISPLAY_STRINGMODIFIER_H
 
 class StringModifier {
 public:
     void Init ();
-    std::string ToDisplay(std::string toModify);
+    std::array<std::string, 2> ToDisplay(std::string toModify);
     
 private:
 };

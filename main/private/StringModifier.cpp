@@ -4,6 +4,9 @@ void StringModifier::Init() {
 
 }
 
-std::string StringModifier::ToDisplay(std::string toModify) {
-    return toModify;
+std::array<std::string, 2> StringModifier::ToDisplay(std::string toModify) {
+    if (toModify.length() <= 16) {
+        return {toModify, ""};
+    }
+    return {toModify.substr(0, 16), toModify.substr(16)};
 }
